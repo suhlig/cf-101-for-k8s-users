@@ -1,0 +1,129 @@
+apiVersion: extensions/v1beta
+kind: Ingress
+metadata:
+  name: k8s-sample-ingress
+spec:
+ rules:
+  - host: k8s.eirini.com
+    http:
+      paths:
+      - backend:
+          serviceName: k8s-sample
+          servicePort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    k8s-app: cfsummit
+  name: cfsummit
+spec:
+  ports:
+    - port: 80
+      targetPort: 8080
+  selector:
+    k8s-app: cfsummit
+---
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  name: cfsummit
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      k8s-app: cfsummit
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    description: Great demo
+  labels:
+    k8s-app: cfsummit
+  name: cfsummit
+  namespace: default
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 3
+  selector:
+    matchLabels:
+      k8s-app: cfsummit
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        k8s-app: cfsummit
+      name: cfsummit
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: k8s-app
+                operator: In
+                values:
+                - cfsummit
+            topologyKey: "kubernetes.io/hostname"
+      volumes:
+      - name: shared-data
+        emptyDir: {}
+      - name: secret-volume
+        secret:
+          secretName: app-server-secret
+      initContainers:
+      - name: run-migration
+        image: cfsummitdemo/springmusicmigration:v2
+        command: ["/bin/run_migration.sh"]
+      containers:
+      - image: cfsummitdemo/tweet_loader:21fab0554
+        name: poller
+        volumeMounts:
+        - name: shared-data
+          mountPath: /tweet-info
+      - image: cfsummitdemo/springmusic:v2
+        imagePullPolicy: Always
+        name: cfsummit
+        env:
+        - name: SOMETHING
+          value: value
+        securityContext:
+          privileged: false
+        volumeMounts:
+        - name: shared-data
+          mountPath: /data/tweets
+          readOnly: true
+        - name: secret-volume
+          mountPath: "/config"
+          readOnly: true
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 3
+          successThreshold: 2
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 45
+          periodSeconds: 3
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: app-server-certs
+type: Opaque
+data:
+  secretJson: eyJwYXNzd29yZCI6Imh1bnRlciJ9Cg==
