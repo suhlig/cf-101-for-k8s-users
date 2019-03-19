@@ -1,4 +1,5 @@
-# Cloud Foundry 101 for Kubernetes Users
+# [Cloud Foundry 101 for Kubernetes Users](https://cfna19.sched.com/event/KJCK/cloud-foundry-101-for-kubernetes-users-steffen-uhlig-ibm-oleksandr-slynko-pivotal)
+
 Steffen Uhlig, IBM & Oleksandr Slynko, Pivotal
 
 Track: Cloud Foundry 101: Getting Started
@@ -21,7 +22,11 @@ In this talk, we will explore what Kubernetes users need to know when using Clou
 * TADAAA: This is what you get when pushing an app with CF and Eirini
 * Look at a few of the components and what role they fulfill on both sides, CF and k8s
 
-## Old
+# Key Take-Away Points
+
+--
+
+Old
 
 * Comparison
 * Deploy app
@@ -32,12 +37,3 @@ In this talk, we will explore what Kubernetes users need to know when using Clou
 
 CF: we care about the app, just consume services
 k8s: wants control, smaller size, very configurable, very popular
-
-# Sections
-
-1.
-1.
-1.
-1.
-
-# Key Take-Away Points
