@@ -20,6 +20,8 @@
 
 # Surprise!
 
+![](eirini-overview.png)
+
 This is what you get with Eirini!
 
 # Eirini?
@@ -32,36 +34,55 @@ This is what you get with Eirini!
 
   ![](cf-haiku)
 
-- TBD
+- YAML almost everywhere
+- The app is in a container
+- Everything is either an long-running process (LRP) or a task
+- LRP is central: a process that
+  * is monitored (and restarted if needed)
+  * has health checks
 
 # Concepts unique to CF
+
+# `cf push`
+
+* App dev cares only about the app bits
+* Push to CF, it does the rest
+* TBD
 
 # Main focus on web apps
 
 * Centered around HTTP
 * No reason not to do generic TCP
-* The app is an LRP
 
 # Droplet as intermediate build product
 
-* `app + buildpack = droplet`
-* `droplet + rootfs = container`
-* Operator can update the rootfs without asking app devs to push again
+>* `app + buildpack = droplet`
+>* `droplet + rootfs = image`
+>* Operator can update the rootfs without asking app devs to push again
 
-# Services Marketplace
+Q: But why? You could build the image at push time.
 
-TBD
+# Buildpack
 
-# Roles, Orgs, Spaces
+* TBD
+* Community or BYO
 
-TBD
+# CF is opinionated
+
+* Roles
+* Orgs
+* Spaces
+* Routing is done for you
+* Services Marketplace
 
 # How Kubernetes features map to CF
 
-# Service discovery
+# Services
 
-* 12factor apps
-* Open Service Broker API
+* 12factor apps consume services using Open Service Broker API
+* k8s: BYO or manually bind
+
+=> For BYO, check presentation TOOD (Julz' image sharing app)
 
 # Load balancing
 
@@ -71,7 +92,7 @@ TBD
 
 . . .
 
-* `gorouter =~ ingress controller + load balancer`
+* `gorouter =~ ingress controller + service`
 
   => nothing to configure for an app
 
@@ -81,35 +102,48 @@ TBD
 
 # Container placement
 
-* Diego: purpose-built container scheduler; optimized for CF
+* Diego: purpose-built container scheduler; optimized for CF (across AZs)
 * Eirini: schedule containers to run on a Kubernetes cluster
 * Future: Conceptually, Eirini is not restricted to k8s (think Mesos, knative, etc)
+* k8s: lots of ways to influence placement, not so much in CF
 
 # Storage
 
-* Possible, but not encouraged
-* Use object stores
+* CF: Disk is ephemeral by default
+* Possible with NFS and SMB (=> `persi`)
+* Use object storage (or another CF service)
 
 # Monitoring & Self-healing
 
-* TBD
+* TODO
+* CF: List health check types
+* k8s: ...
 
 # Automated rollouts and rollbacks
 
+* In k8s, we have ... TODO
 * Not really baked into CF, but trivial with external scripting
 * Green/blue deployments are established patterns
 
+<aside class="notes">
+TODO Oh hey, these are some notes.
+</aside>
+
 # Secret and configuration management
 
+* In k8s, we have ... TODO
 1. Service bindings auto-supply secrets via environment variables
 1. User-provided environment variables allow anything else
+1. Credhub etc. are also possible
 
 # Batch execution
 
+* In k8s, we have ... TODO
 * Tasks
 
 # Horizontal scaling
 
+* In k8s, we have ... TODO
 * `cf scale`
 * The platform will ensure your app gets sufficient instances
 
@@ -128,13 +162,11 @@ Kubernetes:
 
 CF:
 
+<aside class="notes">
+TODO How to get and connect to a database
+</aside>
+
 # Update an existing app
-
-Kubernetes:
-
-CF:
-
-# Bind a service
 
 Kubernetes:
 
@@ -145,8 +177,6 @@ CF:
 Kubernetes:
 
 CF:
-
-# TBD Any more that are interesting?
 
 # Thanks!
 

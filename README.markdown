@@ -37,3 +37,12 @@ Old
 
 CF: we care about the app, just consume services
 k8s: wants control, smaller size, very configurable, very popular
+
+# TODO / Optional
+
+* maybe show YAML of plain k8s deployment
+* split the image into two (deployment vs. runtime)
+* pod disruption budget => not really required in inCF
+* anything unique to k8s that is worth mentioning?
+* Alex may have a comparison table CF vs. k8s
+* Stuff you shouldn't do in CF (and why you might no need it)
