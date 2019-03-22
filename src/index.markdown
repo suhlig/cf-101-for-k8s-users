@@ -20,19 +20,25 @@
 
 # Surprise!
 
-![](eirini-overview.png)
+![](eirini-arch.png)
 
 This is what you get with Eirini!
 
 # Eirini?
 
-* (spend 5 minutes explaining Eirini)
+* Big idea: k8s as CF scheduler
+* Staging is just another task
+* bits-service turns droplets into OCI images
 
 # k8s and CF - Common Ideas
 
 - Declare the desired state of the world, and the platform will make it happen
 
-  ![](cf-haiku)
+#
+
+![](cf-push-haiku.png)
+
+# k8s and CF - Common Ideas
 
 - YAML almost everywhere
 - The app is in a container
@@ -82,7 +88,7 @@ Q: But why? You could build the image at push time.
 * 12factor apps consume services using Open Service Broker API
 * k8s: BYO or manually bind
 
-=> For BYO, check presentation TOOD (Julz' image sharing app)
+=> For BYO, check presentation of Herr Julz and Georgi
 
 # Load balancing
 
