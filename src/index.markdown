@@ -66,7 +66,9 @@ This is what you get with Eirini!
 >* `droplet + rootfs = image`
 >* Operator can update the rootfs without asking app devs to push again
 
+<aside class="notes">
 Q: But why? You could build the image at push time.
+</aside>
 
 # Buildpack
 
