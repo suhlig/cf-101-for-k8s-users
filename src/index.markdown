@@ -2,7 +2,7 @@
 % Oleksandr Slynko, Steffen Uhlig
 %
 
-# Who we are
+## Who we are
 
 - Oleksandr Slynko
   * Pivotal
@@ -123,24 +123,28 @@ Q: But why? You could build the image at push time.
 
 * TODO
 * CF: List health check types
-* k8s: ...
+* k8s: Readiness and Liveness probes
 
 # Automated rollouts and rollbacks
 
-* In k8s, we have ... TODO
+* In k8s, we have Deployment
 * Not really baked into CF, but trivial with external scripting
 * Green/blue deployments are established patterns
 
 <aside class="notes">
-TODO Oh hey, these are some notes.
+Deployment. Rollout strategy with upscaling new deployment and downscaling old one.
 </aside>
 
 # Secret and configuration management
 
-* In k8s, we have ... TODO
+* In k8s, we have secrets and config maps.
 1. Service bindings auto-supply secrets via environment variables
 1. User-provided environment variables allow anything else
 1. Credhub etc. are also possible
+
+<aside class="notes">
+Deployment. Rollout strategy with upscaling new deployment and downscaling old one.
+</aside>
 
 # Batch execution
 
