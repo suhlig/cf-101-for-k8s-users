@@ -7,4 +7,4 @@ applications:
   path: public_html
   routes:
     - route: cf101k8s.eu-gb.mybluemix.net
-    - route: cf101k8s.eirini.cf # cf create-domain Steffen.Uhlig@de.ibm.com eirini.cf
+    - route: cf101k8s.eirini.cf
