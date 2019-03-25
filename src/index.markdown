@@ -123,39 +123,41 @@ Q: But why? You could build the image at push time.
 
 # Monitoring & Self-healing
 
-* TODO
 * CF: List health check types
 * k8s: Readiness and Liveness probes
 
 # Automated rollouts and rollbacks
 
-* In k8s, we have Deployment
+* K8s: deployments
 * Not really baked into CF, but trivial with external scripting
 * Green/blue deployments are established patterns
 
 <aside class="notes">
-Deployment. Rollout strategy with upscaling new deployment and downscaling old one.
+Deployment. Rollout strategy with upscaling new deployment and downscaling old one. Possible to rollback to previous version
 </aside>
 
 # Secret and configuration management
 
-* In k8s, we have secrets and config maps.
+Is K8s, we have secrets and config maps.
+
+CF:
 1. Service bindings auto-supply secrets via environment variables
 1. User-provided environment variables allow anything else
 1. Credhub etc. are also possible
 
 <aside class="notes">
-Deployment. Rollout strategy with upscaling new deployment and downscaling old one.
+Service catalog in Kubernetes.
+Config maps create config file on disk
 </aside>
 
 # Batch execution
 
-* In k8s, we have ... TODO
+* In k8s, we have jobs, pre-start scripts, init containers
 * Tasks
 
 # Horizontal scaling
 
-* In k8s, we have ... TODO
+* In k8s, we have `kubectl scale deployment`
 * `cf scale`
 * The platform will ensure your app gets sufficient instances
 
@@ -168,11 +170,21 @@ Deployment. Rollout strategy with upscaling new deployment and downscaling old o
 
 # Typical App Developer Workflows
 
-# Deploy a new app
+# Deploy a new app in Kubernetes
 
-Kubernetes:
+>1. Create a Docker image
+>1. Push docker image to registry
+>1. Get credentials for database and put them to secret
+>1. Create a Kubernetes spec file with multiple YAML
+>1. Apply this file
 
-CF:
+
+<aside class="notes">
+I usually  find and copy something from existing Dockerfile
+Again copy: service, deployment, pod security policy, networking policy, ingress
+</aside>
+
+# Deploy a new app in CF
 
 <aside class="notes">
 TODO How to get and connect to a database
