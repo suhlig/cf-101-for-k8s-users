@@ -208,6 +208,8 @@ CF:
 
 `@suhlig`
 
+`http://cf101k8s.eirini.cf`
+
 <div class="mini">
   Rev.
   #include ../gpp/.dirty
