@@ -48,9 +48,7 @@ file "#{GPP_DIR}/index.markdown" => [GPP_DIR, DIRTY_FILE] + FileList["#{SOURCE_D
   sh %(gpp -I src -x -o #{target} #{SOURCE_DIR}/index.markdown)
 end
 
-require 'git_dirty_file'
-include GitDirtyFile
-
+require 'git_dirty'
 git_dirty_file DIRTY_FILE
 
 desc "Build #{TARGET_FILE}"

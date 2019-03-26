@@ -1,11 +1,9 @@
 require 'rake/file_task'
 
-module GitDirtyFile
-  def git_dirty_file(*args, &block)
-    GitDirtyFileTask.define_task(*args, &block)
-  end
-end
-
+#
+# Records the git status in a separate file, which can then be included
+# e.g. as part of a file-based build process.
+#
 class GitDirtyFileTask < Rake::FileTask
   include Rake::DSL
 
