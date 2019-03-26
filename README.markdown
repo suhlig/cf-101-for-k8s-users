@@ -22,22 +22,6 @@ In this talk, we will explore what Kubernetes users need to know when using Clou
 * TADAAA: This is what you get when pushing an app with CF and Eirini
 * Look at a few of the components and what role they fulfill on both sides, CF and k8s
 
-# Key Take-Away Points
-
---
-
-Old
-
-* Comparison
-* Deploy app
-  CF vs. k8s
-* which parts do what
-* create a service, scale
-* push an app, scale it
-
-CF: we care about the app, just consume services
-k8s: wants control, smaller size, very configurable, very popular
-
 # TODO / Optional
 
 * maybe show YAML of plain k8s deployment
