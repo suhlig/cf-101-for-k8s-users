@@ -48,16 +48,10 @@ file "#{GPP_DIR}/index.markdown" => [GPP_DIR, DIRTY_FILE] + FileList["#{SOURCE_D
   sh %(gpp -I src -x -o #{target} #{SOURCE_DIR}/index.markdown)
 end
 
-desc "#{DIRTY_FILE} shows git status"
-file DIRTY_FILE do |target_file|
-  rev = `git rev-parse --short HEAD`.chomp
+require 'git_dirty_file'
+include GitDirtyFile
 
-  if `git status --porcelain`.chomp.empty?
-    File.write target_file.to_s, rev
-  else
-    File.write target_file.to_s, "#{rev}*"
-  end
-end
+git_dirty_file DIRTY_FILE
 
 desc "Build #{TARGET_FILE}"
 file TARGET_FILE => [ TARGET_DIR, REVEAL_JS_DIR, GPP_FILES, DIRTY_FILE ] + ASSETS do
