@@ -10,7 +10,7 @@ module GitDirty
   # </code>
   #
   def git_dirty_file(*args, &block)
-    GitDirtyFileTask.define_task(*args, &block)
+    GitDirty::FileTask.define_task(*args, &block)
   end
 end
 
