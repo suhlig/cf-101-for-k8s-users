@@ -85,27 +85,26 @@ Q: But why? You could build the image at push time.
 
 # How Kubernetes features map to CF
 
-# Services
+# Access to databases
 
 * 12factor apps consume services using Open Service Broker API
-* k8s: BYO or manually bind
+* k8s: BYO or deploy ServiceCatalog
 
-=> For BYO, check presentation of Herr Julz and Georgi
+=> For BYO, check later recording Julian Skupnjuak & Georgi Dankov
 
-# Load balancing
+# Application access
 
-* Apps run as containers on `cells` (worker nodes)
+* In K8s, application run as pods on worker nodes
+* In CF, apps run as containers on `cells` (worker nodes)
 
   => not exposed
 
-. . .
+# Application access
 
-* `gorouter =~ ingress controller + service`
-
+* In K8s, services that can be exposed via NodePort, Load Balancer or Ingress
+* Services provide load balancing
+* In CF `gorouter` load balances and exposes application,
   => nothing to configure for an app
-
-. . .
-
 * Apps get auto-registered when they come up
 
 # Container placement
@@ -201,6 +200,10 @@ CF:
 Kubernetes:
 
 CF:
+
+#
+
+![](schedule.png)
 
 # Thanks!
 
