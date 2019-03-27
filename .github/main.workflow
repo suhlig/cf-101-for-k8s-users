@@ -18,5 +18,5 @@ action "push to CF" {
 
 action "generate-presentation" {
   uses = "docker://suhlig/webservices-ci"
-  runs = ["sh", "-c", "gem install rake && rake -I lib"]
+  runs = ["sh", "-c", "bundle install && bundle exec rake"]
 }
