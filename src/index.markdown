@@ -12,11 +12,10 @@
   * IBM
   * `#eirini`, `#ruby`, previously `#bits-service`
 
-# A Typical k8s deployment?
 
-#
+# K8s Application
 
-![](sample_app.jpg)
+>![](sample_app.jpg)
 
 <aside class="notes">
 Also invisible parts like policies, maybe config in config maps, maybe service accounts.
@@ -24,7 +23,7 @@ Plus deployment configuration - Docker image
 * The problem? There is not one, but 10 or even thousands of them.
 </aside>
 
-#
+# More applications
 
 ![](sample_app_multi.jpg)
 
@@ -35,7 +34,7 @@ Plus deployment configuration - Docker image
 
 # The answer?
 
-Cloud Foundry!
+#### Cloud Foundry!
 
 #
 
