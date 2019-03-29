@@ -12,14 +12,19 @@
   * IBM
   * `#eirini`, `#ruby`, previously `#bits-service`
 
+<aside class="notes">
+Speaker: Steffen, then Alex
+</aside>
 
 # K8s Application
 
 >![](sample_app.jpg)
 
 <aside class="notes">
-Also invisible parts like policies, maybe config in config maps, maybe service accounts.
-Plus deployment configuration - Docker image
+Speaker: Alex
+
+* Also invisible parts like policies, maybe config in config maps, maybe service accounts.
+* Plus deployment configuration - Docker image
 * The problem? There is not one, but 10 or even thousands of them.
 </aside>
 
@@ -28,29 +33,33 @@ Plus deployment configuration - Docker image
 ![](sample_app_multi.jpg)
 
 <aside class="notes">
-* From a k8s view, they are mostly all the same
-* What do people do? Copy and paste yaml
+* From a K8s view, they are mostly all the same
+* What do people do? Copy and paste YAML :-(
 </aside>
 
 # The answer?
 
 #### Cloud Foundry!
 
-# k8s and CF - Common Ideas
+# K8s and CF - Common Ideas
 
 - Declare the desired state of the world
 - The platform will make it happen
 
-# k8s and CF - Common Ideas
+# Common Ideas (2)
 
 - YAML almost everywhere
 - The app is in a container
-- Everything is either an long-running process (LRP) or a task
+- Everything is either a long-running process (LRP) or a task
 - LRP is central: a process that
   * is monitored (and restarted if needed)
   * has health checks
 
 # Concepts unique to CF
+
+<aside class="notes">
+Speaker: Steffen
+</aside>
 
 #
 
@@ -70,13 +79,13 @@ Plus deployment configuration - Docker image
 * Push to CF, it does the rest
 * It's all about the UX
 
-# Main focus on web apps
+# Main focus:<br/>web apps
 
 * Centered around HTTP
 * No reason not to do generic TCP
 
 <aside class="notes">
-Generic TCP is not that common
+Generic TCP is possible, but not that common
 </aside>
 
 # Buildpacks (1)
@@ -87,10 +96,10 @@ Generic TCP is not that common
 
 # Buildpacks (2)
 
-* Language specific
-* Community or BYO
-
-  Django, Perl, C++, TomEE, Eclipse Virgo, Jetty, Clojure, Haskell, Python, Zend Server (PHP), Null, JBoss, WebSphere Liberty, Erlang, Elixir, Swift, ...
+>* Language specific
+>* Core: Go, Ruby, Java, Node.js, ...
+>* Community: Django, Perl, C++, TomEE, Eclipse Virgo, Jetty, Clojure, Haskell, Python, Zend Server (PHP), Null, JBoss, WebSphere Liberty, Erlang, Elixir, Swift, ...
+>* BYO
 
 <aside class="notes">
 - static website? nginx
@@ -98,7 +107,8 @@ Generic TCP is not that common
 - Java? Maven, Tomcat, etc.
 
 Alex: What about Docker image?
-Does buildpack builds an image?
+
+Does the buildpack build a container image?
 </aside>
 
 # Droplet as intermediate build product
@@ -108,28 +118,36 @@ Does buildpack builds an image?
 >* Operator can update the rootfs without asking app devs to push again
 
 <aside class="notes">
-Q: But why? You could build the image at push time.
+Alex (after second bullet point):
+
+> But why? You could build the image at push time!
 </aside>
 
 # How Kubernetes features map to CF
 
+<aside class="notes">
+Speaker: Alex
+</aside>
+
 # Application access
 
-* In K8s, services provide load balancing
+- **K8s**: services provide load balancing
   * can be exposed via NodePort, Load Balancer or Ingress
-* In CF, `gorouter` load balances and exposes application
+- **CF**: `gorouter` load balances and exposes application
   * Apps get auto-registered when they come up
   * Nothing to configure for an app
 
 <aside class="notes">
-K8s map from custom container port to service port
-CF is opinionated, always use $PORT (mostly 8080)
+Alternating speakers
+
+- K8s: map from custom container port to service port
+- CF: is opinionated, always use $PORT (mostly 8080)
 </aside>
 
 # Access to databases
 
-* In K8s, you bring your own services, or deploy ServiceCatalog
-* In CF, apps consume services using Open Service Broker API
+- **K8s**: you bring your own services, or deploy ServiceCatalog
+- **CF**: apps consume services using Open Service Broker API
 
 # BYO
 
@@ -138,15 +156,17 @@ Check out this talk:
 > ["Microservices With Cloud Foundry and Kubernetes" by Julian Skupnjuak & Georgi Dankov](https://sched.co/KJCr)
 
 <aside class="notes">
+Speaker: Alex
+
 May want to watch the recording, as it is going as we speak
 </aside>
 
 # Secret and configuration management
 
-* Is K8s, we have secrets and config maps.
-* In CF:
-  1. Service bindings auto-supply secrets via environment variables
-  1. User-provided environment variables allow anything else
+- **K8s**: secrets and config maps
+- **CF**:
+  * Service bindings auto-supply secrets via environment variables
+  * User-provided environment variables allow anything else
 
 <aside class="notes">
 * Service catalog in Kubernetes.
@@ -155,72 +175,79 @@ May want to watch the recording, as it is going as we speak
 
 # Container placement
 
-* In K8s, lots of ways to influence placement
-* In CF, not much influence
+- **K8s**: lots of ways to influence placement
+- **CF**: not much influence
   * the default scheduler `Diego` does it for you
 
 <aside class="notes">
 K8s: affinity and antiaffinity groups based on labels and other applications, custom schedulers, based on node labels, priorities
+
 CF: Isolation segments
 </aside>
 
 # Storage
 
-* In K8s, there are many options
-* In CF, disk is ephemeral by default
+- **K8s**: there are many options
+- **CF**: disk is ephemeral by default
   * Possible with NFS and SMB (=> `persi`)
   * Use object storage (or another CF service)
 
 <aside class="notes">
 K8s: provider-native storage, local disk, NFS, etc
+
+CF: [12factor says](https://12factor.net/processes):
+
+> Any data that needs to persist must be stored in a stateful backing service, typically a database.
 </aside>
 
 # Monitoring & Self-healing
 
-* In K8s, there are readiness and liveness probes
-* CF: http, port, process
+- **K8s**: there are readiness and liveness probes
+- **CF**: http, port, process
 
 <aside class="notes">
-* Alex: some more details about K8s. Exec command on container, http-Get or TCP Socket
+* K8s: Exec command on container, http-Get or TCP Socket
 * There is no healing, just restart
 </aside>
 
 # Metrics
 
-In K8s, you have to deploy metrics service
-In CF, ...
+- **K8s**: you have to deploy metrics service
+- **CF**: RYO
 
 <aside class="notes">
-* And heapster if you want to see metrics in your dashboard. Also something to store metrics. For example, prometheus
-</aside>
+K8s:
 
+* Add heapster if you want to see metrics in your dashboard.
+* May need something to store metrics; for example Prometheus
+</aside>
 
 # Logs
 
-In K8s, logs are stored on worker node. You can deploy some tool, that will forward them
-In CF, ...
+- **K8s**: logs are stored on worker node. You can deploy some tool, that will forward them
+- **CF**: `Loggregator` streams to terminal or 3rd-party service
 
 # Automated rollouts and rollbacks
 
-* In K8s, there are `deployments`
-* In CF, it does not really exist
+- **K8s**: there are `deployments`
+- **CF**: it does not really exist
   - trivial with external scripting
   - Green/blue deployments are established patterns
 
 <aside class="notes">
-Deployment. Rollout strategy with upscaling new deployment and downscaling old one. Possible to rollback to previous version
-Zero-downtime deployments as a command is in beta
+* K8s: `Deployment`. Rollout strategy with upscaling new deployment and downscaling old one. Possible to rollback to previous version
+* Zero-downtime deployments as a command is in beta
 </aside>
 
 # Batch execution
 
-* In K8s, we have `Jobs`, pre-start scripts, init containers
-* In CF, we have `Tasks`
+- **K8s**: `Jobs`, pre-start scripts, init containers
+- **CF**: `Tasks`
 
 # How workflows map
 
-* In K8s, mostly operator-centric (control plane)
-* In CF, we have pretty good separation between
+- **K8s**: mostly operator-centric (control plane)
+- **CF**: we have pretty good separation between
   1. app-deployer
   1. platform operator
 
@@ -237,9 +264,10 @@ Zero-downtime deployments as a command is in beta
 
 <aside class="notes">
 I usually find and copy something from existing Dockerfile
-Most of databases for Kubernetes use operators or helm. They create credentials in secrets. And you can pass some property to create a database.
-Again copy: service, deployment, pod security policy, networking policy, ingress
 
+Most of databases for Kubernetes use operators or helm. They create credentials in secrets. And you can pass some property to create a database.
+
+Again copy: service, deployment, pod security policy, networking policy, ingress
 </aside>
 
 # Deploy a new app in CF
@@ -249,7 +277,7 @@ Again copy: service, deployment, pod security policy, networking policy, ingress
 `cf bind-service*`
 
 <aside class="notes">
-* Only if you connect to a database
+* Only if you connect to a database, on first deploy
 </aside>
 
 # Update an existing app in K8s
@@ -260,8 +288,9 @@ Again copy: service, deployment, pod security policy, networking policy, ingress
 >1. Apply spec
 
 <aside class="notes">
-For production I have pipeline that will do it for me, but for development workflow I have to do
+For production I have a pipeline that does it for me, but for development workflow I have to do this.
 </aside>
+
 # Update an existing app in CF
 
 `cf push`
@@ -272,9 +301,13 @@ For production I have pipeline that will do it for me, but for development workf
   - perhaps PWS or IBM Cloud?
 * Deploy it yourself
 
+# Eirini
+
+![](cf-push-eirini.png)
+
 #
 
-![](eirini-arch.png)
+![Eirini Architecture](eirini-arch.png)
 
 <aside class="notes">
 * This is what you get with Eirini!
