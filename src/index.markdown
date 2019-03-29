@@ -36,45 +36,6 @@ Plus deployment configuration - Docker image
 
 #### Cloud Foundry!
 
-#
-
-![](cf-push-haiku.png)
-
-<aside class="notes">
-* Alex: But I already have my existing k8s cluster! Do I need even more infra?
-* Steffen: A year ago, the answer was yet. But now, we have something new!
-</aside>
-
-#
-
-![](cf-push-eirini.png)
-
-<aside class="notes">
-*
-</aside>
-
-# Eirini
-
-* Big idea: k8s as CF scheduler
-* Staging is just another task
-* bits-service turns droplets into OCI images
-
-
-<aside class="notes">
-or CF as K8s simplifier
-
-What is staging?
-What is bit service and droplets?
-</aside>
-#
-
-![](eirini-arch.png)
-
-<aside class="notes">
-* This is what you get with Eirini!
-* There are other talks with more details
-<aside>
-
 # k8s and CF - Common Ideas
 
 - Declare the desired state of the world
@@ -90,6 +51,10 @@ What is bit service and droplets?
   * has health checks
 
 # Concepts unique to CF
+
+#
+
+![](cf-push-haiku.png)
 
 # CF is opinionated
 
@@ -150,15 +115,6 @@ Q: But why? You could build the image at push time.
 
 # Application access
 
-* In K8s, application run as containers inside pods on worker nodes
-* In CF, apps run as containers on `cells`
-
-<aside class="notes">
-cells == worker nodes
-</aside>
-
-# Application access
-
 * In K8s, services provide load balancing
   * can be exposed via NodePort, Load Balancer or Ingress
 * In CF, `gorouter` load balances and exposes application
@@ -166,6 +122,7 @@ cells == worker nodes
   * Nothing to configure for an app
 
 <aside class="notes">
+K8s map from custom container port to service port
 CF is opinionated, always use $PORT (mostly 8080)
 </aside>
 
@@ -224,9 +181,24 @@ K8s: provider-native storage, local disk, NFS, etc
 * CF: http, port, process
 
 <aside class="notes">
-* TODO Alex: some more details about K8s. Exec command on container, http-Get or TCP Socket
+* Alex: some more details about K8s. Exec command on container, http-Get or TCP Socket
 * There is no healing, just restart
 </aside>
+
+# Metrics
+
+In K8s, you have to deploy metrics service
+In CF, ...
+
+<aside class="notes">
+* And heapster if you want to see metrics in your dashboard. Also something to store metrics. For example, prometheus
+</aside>
+
+
+# Logs
+
+In K8s, logs are stored on worker node. You can deploy some tool, that will forward them
+In CF, ...
 
 # Automated rollouts and rollbacks
 
@@ -244,12 +216,6 @@ Zero-downtime deployments as a command is in beta
 
 * In K8s, we have `Jobs`, pre-start scripts, init containers
 * In CF, we have `Tasks`
-
-# Horizontal scaling
-
-* In K8s, we have `kubectl scale deployment`
-* In CF, we use `cf scale`
-  * The platform will ensure your app gets sufficient instances
 
 # How workflows map
 
@@ -306,6 +272,19 @@ For production I have pipeline that will do it for me, but for development workf
   - perhaps PWS or IBM Cloud?
 * Deploy it yourself
 
+#
+
+![](eirini-arch.png)
+
+<aside class="notes">
+* This is what you get with Eirini!
+* There are other talks with more details
+<aside>
+
+# Eirini Sessions
+
+#include eirini-sessions.markdown
+
 # Thanks!
 
 `@alex_sly`
@@ -313,10 +292,6 @@ For production I have pipeline that will do it for me, but for development workf
 `@suhlig`
 
 `http://cf101k8s.eirini.cf`
-
-# Eirini Sessions
-
-#include eirini-sessions.markdown
 
 # Meta
 
