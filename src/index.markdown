@@ -19,16 +19,19 @@
 ![](sample_app.jpg)
 
 <aside class="notes">
+Also invisible parts like policies, maybe config in config maps, maybe service accounts.
+Plus deployment configuration - Docker image
 * The problem? There is not one, but 10 or even thousands of them.
-* From a k8s view, they are mostly all the same
-* What do people do? Copy and paste yaml
 </aside>
 
 #
 
-TODO Alex: same image, but with multiple instances
-
 ![](sample_app_multi.jpg)
+
+<aside class="notes">
+* From a k8s view, they are mostly all the same
+* What do people do? Copy and paste yaml
+</aside>
 
 # The answer?
 
@@ -57,6 +60,13 @@ Cloud Foundry!
 * Staging is just another task
 * bits-service turns droplets into OCI images
 
+
+<aside class="notes">
+or CF as K8s simplifier
+
+What is staging?
+What is bit service and droplets?
+</aside>
 #
 
 ![](eirini-arch.png)
@@ -82,6 +92,14 @@ Cloud Foundry!
 
 # Concepts unique to CF
 
+# CF is opinionated
+
+* Orgs
+* Spaces
+* Roles
+* Routing
+* Marketplace for services
+
 # `cf push`
 
 * App dev cares only about the app bits
@@ -95,16 +113,6 @@ Cloud Foundry!
 
 <aside class="notes">
 Generic TCP is not that common
-</aside>
-
-# Droplet as intermediate build product
-
->* `app + buildpack = droplet`
->* `droplet + rootfs = image`
->* Operator can update the rootfs without asking app devs to push again
-
-<aside class="notes">
-Q: But why? You could build the image at push time.
 </aside>
 
 # Buildpacks (1)
@@ -124,32 +132,22 @@ Q: But why? You could build the image at push time.
 - static website? nginx
 - Ruby apps? Interpreter + bundler
 - Java? Maven, Tomcat, etc.
+
+Alex: What about Docker image?
+Does buildpack builds an image?
 </aside>
 
-# CF is opinionated
+# Droplet as intermediate build product
 
-* Orgs
-* Spaces
-* Roles
-* Routing
-* Marketplace for services
-
-# How Kubernetes features map to CF
-
-# Access to databases
-
-* In K8s, you bring your own services, or deploy ServiceCatalog
-* In CF, apps consume services using Open Service Broker API
-
-# BYO
-
-Check out this talk:
-
-> ["Microservices With Cloud Foundry and Kubernetes" by Julian Skupnjuak & Georgi Dankov](https://sched.co/KJCr)
+>* `app + buildpack = droplet`
+>* `droplet + rootfs = image`
+>* Operator can update the rootfs without asking app devs to push again
 
 <aside class="notes">
-May want to watch the recording, as it is going as we speak
+Q: But why? You could build the image at push time.
 </aside>
+
+# How Kubernetes features map to CF
 
 # Application access
 
@@ -172,6 +170,33 @@ cells == worker nodes
 CF is opinionated, always use $PORT (mostly 8080)
 </aside>
 
+# Access to databases
+
+* In K8s, you bring your own services, or deploy ServiceCatalog
+* In CF, apps consume services using Open Service Broker API
+
+# BYO
+
+Check out this talk:
+
+> ["Microservices With Cloud Foundry and Kubernetes" by Julian Skupnjuak & Georgi Dankov](https://sched.co/KJCr)
+
+<aside class="notes">
+May want to watch the recording, as it is going as we speak
+</aside>
+
+# Secret and configuration management
+
+* Is K8s, we have secrets and config maps.
+* In CF:
+  1. Service bindings auto-supply secrets via environment variables
+  1. User-provided environment variables allow anything else
+
+<aside class="notes">
+* Service catalog in Kubernetes.
+* Config maps create config file on disk
+</aside>
+
 # Container placement
 
 * In K8s, lots of ways to influence placement
@@ -179,6 +204,7 @@ CF is opinionated, always use $PORT (mostly 8080)
   * the default scheduler `Diego` does it for you
 
 <aside class="notes">
+K8s: affinity and antiaffinity groups based on labels and other applications, custom schedulers, based on node labels, priorities
 CF: Isolation segments
 </aside>
 
@@ -199,7 +225,7 @@ K8s: provider-native storage, local disk, NFS, etc
 * CF: http, port, process
 
 <aside class="notes">
-* TODO Alex: some more details about K8s
+* TODO Alex: some more details about K8s. Exec command on container, http-Get or TCP Socket
 * There is no healing, just restart
 </aside>
 
@@ -212,19 +238,7 @@ K8s: provider-native storage, local disk, NFS, etc
 
 <aside class="notes">
 Deployment. Rollout strategy with upscaling new deployment and downscaling old one. Possible to rollback to previous version
-</aside>
-
-# Secret and configuration management
-
-* Is K8s, we have secrets and config maps.
-* In CF:
-  1. Service bindings auto-supply secrets via environment variables
-  1. User-provided environment variables allow anything else
-  1. Credhub etc. are also possible
-
-<aside class="notes">
-* Service catalog in Kubernetes.
-* Config maps create config file on disk
+Zero-downtime deployments as a command is in beta
 </aside>
 
 # Batch execution
@@ -254,10 +268,13 @@ Deployment. Rollout strategy with upscaling new deployment and downscaling old o
 >1. Get credentials for database and put them to secret
 >1. Create a Kubernetes spec file with multiple YAML
 >1. Apply this file
+>1. `kubectl deployment rollout status --watch`
 
 <aside class="notes">
 I usually find and copy something from existing Dockerfile
+Most of databases for Kubernetes use operators or helm. They create credentials in secrets. And you can pass some property to create a database.
 Again copy: service, deployment, pod security policy, networking policy, ingress
+
 </aside>
 
 # Deploy a new app in CF
@@ -277,6 +294,9 @@ Again copy: service, deployment, pod security policy, networking policy, ingress
 >1. Change spec to use new image
 >1. Apply spec
 
+<aside class="notes">
+For production I have pipeline that will do it for me, but for development workflow I have to do
+</aside>
 # Update an existing app in CF
 
 `cf push`
