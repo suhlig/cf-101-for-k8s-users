@@ -315,31 +315,9 @@ For production I have pipeline that will do it for me, but for development workf
 
 `http://cf101k8s.eirini.cf`
 
-# Other Sessions
+# Eirini Sessions
 
-- [Project Office Hours: Eirini](https://sched.co/LVPH)
-  * Julian Friedman and the whole Eirini team
-  * April 3 • 3:35pm - 4:05pm
-
-- [Cloud Foundry 101 for Kubernetes Users](https://sched.co/KJCK)
-  * Steffen Uhlig, IBM & Oleksandr Slynko, Pivotal
-  * April 3 • 5:15pm - 5:45pm
-
-- ["Microservices With Cloud Foundry and Kubernetes"](https://sched.co/KJCr)
-  * Julian Skupnjuak, IBM & Georgi Dankov, SAP
-  * April 3 • 5:15pm - 5:45pm
-
-- ["Kube" your Enthusiasm: Bringing Cloud Foundry and Kubernetes Together with Project Eirini](https://sched.co/KJDa)
-  * Julz Friedman, IBM & Mario Nitchev, SAP
-  * April 4 • 11:05am - 11:35am
-
-- [Diego vs Eirini: How to Choose the Best Fitting Container Scheduler](https://sched.co/LViH)
-  * Julian Skupnjak, IBM & Georgi Dankov, SAP
-  * April 4 • 2:00pm - 2:30pm
-
-- [Zero to CF in Kube-Cluster in 30 Seconds with Concourse, Helm, Fissile and Eirini](https://sched.co/LVYz)
-  * Steffen Uhlig, IBM & Akshay Mankar, Pivotal
-  * April 4 • 3:40pm - 4:10pm
+#include eirini-sessions.markdown
 
 # Meta
 
