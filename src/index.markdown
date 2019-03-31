@@ -166,7 +166,7 @@ May want to watch the recording, as it is going as we speak
 - **K8s**: secrets and config maps
 - **CF**:
   * Service bindings auto-supply secrets via environment variables
-  * User-provided environment variables allow anything else
+  * User-provided environment variables
 
 <aside class="notes">
 * Service catalog in Kubernetes.
